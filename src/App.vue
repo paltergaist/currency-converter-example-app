@@ -1,32 +1,66 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+<template lang="pug">
+div#app
+  v-app
+    transition(name="overlay-appearance")
+      .grey.lighten-5.layout.column.align-center.justify-center(
+        v-if="!isAppReady"
+        style="position: fixed; height: 100vh; width: 100vw; z-index: 9999")
+
+        v-progress-circular(:width="3" color="red" indeterminate)
+
+    template(v-if="isAppReady")
+      //- Drawer
+      //- Toolbar
+
+      v-content
+        transition(name="route-appearance" mode="out-in")
+          router-view
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+// import Drawer from './Drawer.vue';
+// import Toolbar from './Toolbar.vue';
 
-#nav {
-  padding: 30px;
+export default {
+  components: {},
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  data: () => ({
+    isAppReady: true,
+  }),
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+  mounted() {
+    this.setup();
+  },
+
+  methods: {
+    async setup() {
+      // setTimeout(() => { this.isAppReady = true; }, 500);
+    },
+  },
+};
+</script>
+
+
+<style lang="sass">
+// @import '../styles/global'
+
+html
+  scroll-behavior: smooth
+  overscroll-behavior: none
+
+.overlay-appearance
+  &-enter-active, &-leave-active
+    transition: all .4s
+
+  &-enter, &-leave-to
+    opacity: 0
+
+.route-appearance
+  &-enter-active, &-leave-active
+    transition: all .4s
+
+  &-enter, &-leave-to
+    transform: translateY(4px)
+    opacity: 0
+
 </style>

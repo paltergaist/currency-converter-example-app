@@ -1,12 +1,15 @@
 import Vue from 'vue';
 import App from './App.vue';
-import router from './router';
-import store from './store';
+
+import artifacts from './bootstrap';
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
+const app = new Vue({
+  router: artifacts.router,
+  store: artifacts.store,
+  vuetify: artifacts.vuetify,
   render: h => h(App),
-}).$mount('#app');
+});
+
+app.$mount('#app');
